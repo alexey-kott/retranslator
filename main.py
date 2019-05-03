@@ -28,7 +28,7 @@ def get_settings() -> Dict:
 
 
 def is_word_matching(message: Message, words: List[str]) -> bool:
-
+    
     return False
 
 
@@ -44,9 +44,10 @@ def is_sender_matching(message: Message, users: str) -> bool:
 
 def check_message(message: Message) -> bool:
     settings = get_settings()
+    text = message.text
     for filter_type, filter_items in settings['FILTERS'].items():
         if filter_type == 'WORDS':
-            if is_word_matching(message, filter_items):
+            if is_word_matching(text, filter_items):
                 return True
         if filter_type == 'REGEXP':
             if is_regexp_matching(message, filter_items):

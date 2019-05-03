@@ -1,8 +1,13 @@
+certifi==2019.3.9
+chardet==3.0.4
+idna==2.8
 nltk==3.4.1
-pkg-resources==0.0.0
 pyaes==1.6.1
 pyasn1==0.4.5
+pymystem3==0.2.0
 PySocks==1.6.8
+requests==2.21.0
 rsa==4.0
 six==1.12.0
 Telethon==1.7.1
+urllib3==1.24.3
