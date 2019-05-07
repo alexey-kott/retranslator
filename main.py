@@ -4,6 +4,8 @@ import re
 from asyncio import sleep
 from typing import List, Dict, Union
 
+import pandas as pd
+import requests
 from socks import SOCKS5
 from telethon import TelegramClient
 from telethon.events import NewMessage
@@ -11,16 +13,21 @@ from telethon.tl.custom import Message
 from nltk.corpus import stopwords
 from pymystem3 import Mystem
 from string import punctuation
-
 from telethon.tl.types import User, Channel
+from requests.exceptions import ConnectionError
 
-from config import APP_API_HASH, APP_API_ID, PHONE_NUMBER, SETTINGS_FILE
+from config import APP_API_HASH, APP_API_ID, PHONE_NUMBER, SETTINGS_FILE, \
+    PROXY_HOST, PROXY_PORT, PROXY_USERNAME, PROXY_PASS
 from utils import init_logger
 
 logger = init_logger()
 
-# proxy = None
-proxy = (SOCKS5, '51.144.86.230', 18001, True, 'usrTELE', 'avt231407')
+try:
+    response = requests.get('https://api.telegram.org')
+    proxy = None
+except ConnectionError as e:
+    proxy = (SOCKS5, PROXY_HOST, PROXY_PORT, True, PROXY_USERNAME, PROXY_PASS)
+
 client = TelegramClient(PHONE_NUMBER.strip('+'),
                         APP_API_ID,
                         APP_API_HASH,
@@ -133,9 +140,18 @@ async def new_message_handler(event: NewMessage.Event):
         await send_out_message(message)
 
 
+async def check_chats():
+    df = pd.read_excel('telegram_chats.xlsx')
+    for i, row in df.iterrows():
+        print(row['short'])
+        await client.get_entity()
+
+
 async def main():
     await client.start()
-    await client.run_until_disconnected()
+    await check_chats()
+
+    # await client.run_until_disconnected()
 
 
 if __name__ == "__main__":
