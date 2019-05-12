@@ -4,7 +4,6 @@ import re
 from asyncio import sleep
 from typing import List, Dict, Union
 
-import pandas as pd
 import requests
 from socks import SOCKS5
 from telethon import TelegramClient
@@ -123,8 +122,6 @@ async def get_receivers() -> List[Union[User, Channel]]:
 
 
 async def send_out_message(message: Message) -> None:
-    receivers = await get_receivers()
-
     for receiver in receivers:
         if receiver.username == message.sender.username:
             continue
@@ -140,18 +137,13 @@ async def new_message_handler(event: NewMessage.Event):
         await send_out_message(message)
 
 
-async def check_chats():
-    df = pd.read_excel('telegram_chats.xlsx')
-    for i, row in df.iterrows():
-        print(row['short'])
-        await client.get_entity()
-
-
 async def main():
     await client.start()
-    await check_chats()
 
-    # await client.run_until_disconnected()
+    global receivers
+    receivers = await get_receivers()
+
+    await client.run_until_disconnected()
 
 
 if __name__ == "__main__":
