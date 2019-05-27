@@ -134,6 +134,7 @@ async def new_message_handler(event: NewMessage.Event):
     message = event.message
     log_message(message)
     if check_message(message):
+        logger.info(f'Forward message: {message.text}')
         await send_out_message(message)
 
 
