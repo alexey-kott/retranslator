@@ -9,7 +9,7 @@ def init_logger() -> logging.Logger:
                         filename='retranslator.log')
     logger = logging.getLogger()
     stream_handler = logging.StreamHandler(sys.stdout)
-    stream_handler.setLevel(logging.INFO)
+    stream_handler.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s - %(message)s')
     stream_handler.setFormatter(formatter)
     logger.addHandler(stream_handler)

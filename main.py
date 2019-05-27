@@ -131,6 +131,7 @@ async def send_out_message(message: Message) -> None:
 
 @client.on(NewMessage)
 async def new_message_handler(event: NewMessage.Event):
+    logger.debug(event.__dict__)
     message = event.message
     log_message(message)
     if check_message(message):
