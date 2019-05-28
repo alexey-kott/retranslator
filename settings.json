@@ -1,7 +1,7 @@
 {
   "FILTERS": {
     "WORDS": [
-      
+      "test", "тестовое"
     ],
     "REGEXP": [
 
@@ -11,6 +11,6 @@
     ]
   },
   "RECEIVERS": [
-
+    "@lolkekboy"
   ]
 }
