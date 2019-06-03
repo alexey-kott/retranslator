@@ -60,9 +60,13 @@
     height: 100%;
 }
 
-.task-label {
+.account-label {
     font-weight: bold;
     font-size: 1.4em;
+}
+
+#new-account-form{
+    display: none;
 }
 
 .hidden-password{

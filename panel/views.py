@@ -6,12 +6,12 @@ from django.shortcuts import render, redirect
 
 
 # Create your views here.
-from panel.forms import SignUpForm
+from panel.forms import SignUpForm, NewAccountForm
 
 
 @login_required(login_url='/sign-in/')
 def index(request: WSGIRequest):
-    return render(request, 'panel/index.html', {})
+    return render(request, 'panel/index.html', {'new_account_form': NewAccountForm()})
 
 
 def sign_up(request: WSGIRequest):

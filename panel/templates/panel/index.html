@@ -1,5 +1,5 @@
 {% extends 'panel/base.html' %}
-
+{% load crispy_forms_tags %}
 
 {% block header %}{% endblock %}
 
@@ -10,14 +10,23 @@
                 <span class="glyphicon glyphicon-plus"></span>
                 <span class="oi oi-plus"></span>
 
-                <a href="/task/" class="list-group-item list-group-item-action">
-                    <span class="task-label">+ Добавить аккаунт</span>
+                <a href="#" class="list-group-item list-group-item-action new-account-label">
+                    <span class="account-label">+ Добавить аккаунт</span>
                 </a>
+                <form id="new-account-form" enctype="multipart/form-data" method="POST">
+
+                    {% csrf_token %}
+                    {{ new_account_form|crispy}}
+                    <input type="button" value="Авторизовать" class="btn btn-primary btn-block auth-new-account">
+                </form>
             </div>
         </div>
     </div>
 
     <script>
-        var user_id = {{request.user.id}}
+        // var user_id = {{request.user.id}}
+
+
+
     </script>
 {% endblock %}

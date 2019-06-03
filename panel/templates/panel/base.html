@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,15 +25,15 @@
 <div class="header-menu">
     <div class="menu-items">
         {% if request.user.is_authenticated %}
-            <div class="menu-item">
-                <div class="header-logo">
-                    <a href="/">
-                        Главная
-                    </a>
-                </div>
+        <div class="menu-item">
+            <div class="header-logo">
+                <a href="/">
+                    Главная
+                </a>
             </div>
-            <div class="menu-item"><a href="/logs/" class="menu-item-title">Логи</a></div>
-            <div class="menu-item"><a href="/settings/" class="menu-item-title">Настройки</a></div>
+        </div>
+        <div class="menu-item"><a href="/logs/" class="menu-item-title">Логи</a></div>
+        <div class="menu-item"><a href="/settings/" class="menu-item-title">Настройки</a></div>
         {% endif %}
     </div>
 
@@ -54,6 +55,57 @@
         <div class="col-xl-0 col-lg-0 col-md-0 col-sm-0 col-0"></div>
     </div>
 </div>
+
+
+<script>
+
+    var ws_connection = new WebSocket(
+        'ws://' + window.location.host +
+        '/ws/');
+
+    ws_connection.onmessage = function (e) {
+        var data = JSON.parse(e.data);
+        console.log(data);
+    };
+
+    ws_connection.onclose = function (e) {
+        console.error('Chat socket closed unexpectedly');
+        if(ws_connection.readyState == 3){
+            ws_connection = new WebSocket(
+                'ws://' + window.location.host +
+                '/ws/');
+        }
+    };
+
+    // document.querySelector('body').onclick = function(e) {
+    //     ws_connection.send(JSON.stringify({
+    //         'message': 'test_message'
+    //     }));
+    //
+    // };
+
+    $(".new-account-label").on('click', function (e) {
+        $(".new-account-label:first").animate({'height': 0, 'opacity': 0});
+        $(".new-account-label:first").animate({'display': 0});
+        // $(e.target).animate({'height': 0}, {'opacity': 0}, {'display': 0})
+        $("#new-account-form").fadeIn()
+    });
+
+    $(".auth-new-account:first").on('click', function () {
+        let form = $("#new-account-form")[0];
+        let new_account_form = new FormData(form);
+        let message = {};
+        new_account_form.forEach((value, key) => {
+            message[key] = value
+        });
+
+        // let ws_connection = new WebSocket(
+        // 'ws://' + window.location.host +
+        // '/ws/auth_account/');
+        message['method'] = 'auth_account';
+        ws_connection.send(JSON.stringify(message));
+    });
+</script>
 
 
 </body>
