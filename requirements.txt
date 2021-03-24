@@ -38,7 +38,7 @@ pytest==4.5.0
 python-dateutil==2.8.0
 pytz==2019.1
 requests==2.21.0
-rsa==4.0
+rsa==4.1
 six==1.12.0
 sqlparse==0.3.0
 Telethon==1.7.1
